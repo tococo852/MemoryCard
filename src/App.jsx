@@ -7,7 +7,6 @@ import { ScoreBoard } from './Components/scoreBoard/scoreBoard'
 import './App.css'
 
 function App() {
-  const [canContinue, setCanContinue] = useState(true)
   const [currentScore,setCurrentScore]=useState(0)
   const [maxScore,setMaxScore]=useState(0)
 
@@ -21,8 +20,6 @@ function App() {
       maxScore={maxScore}/>
 
       <CardManager
-      canContinue={canContinue}
-      setCanContinue={setCanContinue}
       currentScore={currentScore}
       setCurrentScore={setCurrentScore}
       maxScore={maxScore}
