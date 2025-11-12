@@ -2,12 +2,13 @@
 import { useState } from "react"
 import { useEffect } from "react"
 
-const PictureCard=({reset,setCurrentScore,setReset,picture,reArrange})=>{
+const PictureCard=({reset,setCurrentScore,setReset,picture, setIt})=>{
     const [firstClick, setFirstClicked]=useState(true)
 
 
     const handleReset=()=>{
         if(reset){
+            console.log('happens')
             setFirstClicked(true)
             setCurrentScore(0)
             setReset(false)
@@ -16,6 +17,7 @@ const PictureCard=({reset,setCurrentScore,setReset,picture,reArrange})=>{
         
     }
     const clickHandler=(e)=>{
+
         //never clicked before
         if(firstClick){
             setCurrentScore(prev=>(prev+1))
@@ -24,10 +26,9 @@ const PictureCard=({reset,setCurrentScore,setReset,picture,reArrange})=>{
         }
         //was clicked before
         else{
-
             setReset(true)
         }
-        reArrange()
+        setIt((prev)=>prev+1)
         
     }
     useEffect(()=>{
