@@ -25,9 +25,7 @@ const CardManager=({
 
     const pictures=[0,1,2,3,4,5,6,7,8,9]
 
-    const [reset, setReset]=useState(false)
-    const [iteration, setIteration]=useState(0)
-    const [cardDisplay, setCardDisplay]=useState(()=>{
+    const genPictures=()=>{
         return pictures.map((pic,index)=>(
                     <PictureCard
                         key={index}
@@ -39,7 +37,11 @@ const CardManager=({
 
                     />       
                 ))
-    })
+    }
+
+    const [reset, setReset]=useState(false)
+    const [iteration, setIteration]=useState(0)
+    const [cardDisplay, setCardDisplay]=useState(genPictures())
 
     const reArrange=(cards)=>{
         let newcards=[...cards].reverse(); // or shuffle, slice, etc.  
@@ -51,9 +53,10 @@ const CardManager=({
         setCardDisplay(reArrange(cardDisplay))
     }, [iteration])
 
-useEffect(() => {
-  console.log("Reset changed:", reset);
-}, [reset]);
+    useEffect(() => {
+    setCurrentScore(0)
+    setCardDisplay(genPictures())
+    }, [reset]);
     return <>
 
             {cardDisplay}
