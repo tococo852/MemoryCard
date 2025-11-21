@@ -37,7 +37,7 @@ const PictureCard=({reset,setCurrentScore,setReset,picture, setIt})=>{
     return <>
         <button type="button"
         onClick={clickHandler}>
-            <img src={picture} alt="" style={{height: 60, width: 60}}/>
+            <img src={picture} alt="" style={{height: 200, width: 200}}/>
         </button>
         </>
 

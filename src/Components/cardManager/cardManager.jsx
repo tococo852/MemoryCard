@@ -58,14 +58,15 @@ const CardManager = ({
     },[]);
     // reshuffle on iteration change
     useEffect(() => {
-        setPictures(p => shuffle([...p]));
+        setPictures(prev=>shuffle(prev));
     }, [iteration]);
 
     // reset game
     useEffect(() => {
+
         setCurrentScore(0);
         setPictures(prev=>shuffle(prev));
-    }, [reset]);
+    }, [reset]); 
 
     useEffect(() => {
         newMaxScore(currentScore, maxScore, setMaxScore);
@@ -78,11 +79,9 @@ const CardManager = ({
     },[pictures])
     
     return  (
-    isLoading ? (
-        <>Loading...</>
-    ) : (
+
         <>
-            {
+            { 
                 pictures.map(picture=>{
                    return( <PictureCard
                     key={(picture)}
@@ -97,7 +96,7 @@ const CardManager = ({
                 
             
         </>
-    )
+    
 );
 };
 
