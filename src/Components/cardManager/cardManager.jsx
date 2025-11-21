@@ -47,16 +47,18 @@ const CardManager = ({
 
     useEffect(()=>{
         const load= async()=>{
-            //const pictureSet = await PictureImport()
-            const pictureSet= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-            setPictures(shuffle(pictureSet))
-            setIsLoading(false)
+            const pictureSet = await PictureImport()
+            //const pictureSet= [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+            console.log("Loaded pictures:", pictureSet)
+            setPictures(pictureSet)
+
+            
         }
         load()
     },[]);
     // reshuffle on iteration change
     useEffect(() => {
-        setPictures(prev => shuffle(prev));
+        setPictures(p => shuffle([...p]));
     }, [iteration]);
 
     // reset game
@@ -68,24 +70,37 @@ const CardManager = ({
     useEffect(() => {
         newMaxScore(currentScore, maxScore, setMaxScore);
     }, [currentScore]);
+
+    useEffect(()=>{
+        if(pictures.length>0){
+            setIsLoading(false)
+        }
+    },[pictures])
+    
     return  (
     isLoading ? (
         <>Loading...</>
     ) : (
         <>
-            {pictures.map((pic) => (
-                <PictureCard
-                    key={pic}
+            {
+                pictures.map(picture=>{
+                   return( <PictureCard
+                    key={(picture)}
                     setCurrentScore={setCurrentScore}
                     reset={reset}
                     setReset={setReset}
-                    picture={pic}
+                    picture={picture}
                     setIt={setIteration}
-                />
-            ))}
+                />)
+                })
+            }
+                
+            
         </>
     )
 );
 };
 
 export { CardManager };
+
+
