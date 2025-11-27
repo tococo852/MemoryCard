@@ -1,54 +1,101 @@
+import { useEffect, useState } from "react";
+import { PictureCard } from "../pictureCard/pictureCard";
+import { PictureImport } from "../pictureImport/pictureImport";
 
-import { useEffect, useState } from "react"
-import { PictureCard } from "../pictureCard/pictureCard"
+function getRandomInt(min, max) {
+    const minCeiled = Math.ceil(min);
+    const maxFloored = Math.floor(max);
+    return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
+}
 
-const CardManager=({
+const shuffle = (arr) => {
+    let tempArr = [...arr];
+    let newArray = [];
+    let index = 0;
+    let pick = [];
+
+    while (tempArr.length > 0) {
+        index = getRandomInt(0, tempArr.length);
+        pick = tempArr.splice(index, 1);
+        newArray.push(pick[0]);
+    }
+
+    return newArray;
+};
+
+const newMaxScore = (currentScore, maxScore, setMaxScore) => {
+    if (currentScore > maxScore) {
+        setMaxScore(currentScore);
+    }
+};
+
+const CardManager = ({
     currentScore,
     setCurrentScore,
     maxScore,
     setMaxScore
-
-    })=>{
-
-    const newMaxScore=()=>{
-        if (currentScore>maxScore){
-            setMaxScore(currentScore)
-        }
-    }
+}) => {
 
 
+
+    //const pictureTest = PictureImport();
+    //console.log(pictureTest);
+    const [reset, setReset] = useState(false);
+    const [isLoading, setIsLoading]=useState(true)
+    const [iteration, setIteration] = useState(0);
+    const [pictures, setPictures] = useState([]);
 
     useEffect(()=>{
-        newMaxScore()
-
-    }, [currentScore])
-
-    const pictures=[0,1,2,3,4,5,6,7,8,9]
-
-    const [reset, setReset]=useState(false)
-
-    const reArrange=()=>{
-        console.log('working')
-        cards=[...cards].reverse(); // or shuffle, slice, etc.    
+        const load= async()=>{
+            const pictureSet = await PictureImport()
+            setPictures(await pictureSet) 
         }
-    let cards=pictures.map((pic,index)=>(
-                    <PictureCard
-                        key={index}
-                        setCurrentScore={setCurrentScore}
-                        reset={reset}
-                        setReset={setReset}
-                        picture={pic}
-                        reArrange={reArrange}
-                    />       
-                ))
+        load()
+    },[]);
+    // reshuffle on iteration change
+    useEffect(() => {
+        setPictures(prev=>shuffle(prev));
+    }, [iteration]);
 
+    // reset game
+    useEffect(() => {
 
-    return <>
+        setCurrentScore(0);
+        setPictures(prev=>shuffle(prev));
+    }, [reset]); 
 
-            {cards}
-                 
+    useEffect(() => {
+        newMaxScore(currentScore, maxScore, setMaxScore);
+    }, [currentScore]);
+
+    useEffect(()=>{
+        if(pictures.length>0){
+            setIsLoading(false)
+        }
+    },[pictures])
+    
+    return  (
+
+        <>
+            { 
+                pictures.map(picture=>{
+                   return( <PictureCard
+                    key={(picture)}
+                    setCurrentScore={setCurrentScore}
+                    reset={reset}
+                    setReset={setReset}
+                    picture={picture}
+                    setIt={setIteration}
+                />)
+                })
+            }
+                
+            
         </>
+    
+);
+};
 
-}
+export { CardManager };
 
-export {CardManager}
+
