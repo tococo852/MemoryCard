@@ -14,6 +14,7 @@ function App() {
     <>
       <header>
           <h4>Memory card!</h4>
+          <p>click all 10 different cards without repeating!</p>
       </header>
       <ScoreBoard
       currentScore={currentScore}
