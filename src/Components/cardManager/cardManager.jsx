@@ -48,7 +48,7 @@ const CardManager = ({
     useEffect(()=>{
         const load= async()=>{
             const pictureSet = await PictureImport()
-            setPictures(await pictureSet) 
+            setPictures( pictureSet) 
         }
         load()
     },[]);
@@ -76,22 +76,24 @@ const CardManager = ({
     
     return  (
 
-        <>
-            { 
-                pictures.map(picture=>{
-                   return( <PictureCard
-                    key={(picture)}
-                    setCurrentScore={setCurrentScore}
-                    reset={reset}
-                    setReset={setReset}
-                    picture={picture}
-                    setIt={setIteration}
-                />)
-                })
-            }
-                
-            
-        </>
+      <>
+        {isLoading ? (
+            <p>loading...</p>
+        ) : (
+            pictures.map(picture => {
+            return (
+                <PictureCard
+                key={picture}
+                setCurrentScore={setCurrentScore}
+                reset={reset}
+                setReset={setReset}
+                picture={picture}
+                setIt={setIteration}
+                />
+            );
+            })
+        )}
+    </>
     
 );
 };

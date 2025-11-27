@@ -1,7 +1,4 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-
 import { CardManager } from './Components/cardManager/cardManager'
 import { ScoreBoard } from './Components/scoreBoard/scoreBoard'
 import './App.css'
